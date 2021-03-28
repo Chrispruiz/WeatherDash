@@ -166,3 +166,7 @@ li:last-child {
     line-height: 50%;
     margin: 5px 5px 5px 0px;
 }
+
+.row * {
+    margin-right: 5px;
+}
