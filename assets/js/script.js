@@ -1,5 +1,6 @@
 let apiKey = 'c6c62bbd217c5f9e1d1153a9baa5ce0b'
 
+//Defined variables for HTML
 let searchInput = $('.searchInput');
 let searchBtn = $('.searchBtn');
 let currentDate = $('.currentDate');
@@ -12,6 +13,7 @@ let windSpeedEl = $('.windSpeed');
 let uvIndexEl = $('.uvIndex');
 let cardRow = $(".card-row");
 
+//Current Date 
 var today = new Date();
 let dd = String(today.getDate()).padStart(2, '0');
 let mm = String(today.getMonth() + 1).padStart(2, '0');
