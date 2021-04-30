@@ -31,11 +31,12 @@ searchBtn.on('click', function(e) {
     getWeather(searchInput.val());
 });
 
-/* $(document).on('click', ".historyEntry", function() {
-    console.log('clicked history item')
+//click history items
+$(document).on('click', ".historyEntry", function() {
     let thisElement = $(this);
     getWeather(thisElement.text());
-}); */
+});
+
 
 function renderWeatherData(cityName, cityTemp, cityHumidity, cityWindSpeed, cityWeatherIcon, uvVal) {
     cityNameEl.text(cityName)
@@ -82,7 +83,6 @@ function getWeather(desiredCity) {
     .then(function(uvData) {
         if (JSON.parse(localStorage.getItem("searchHistory")) == null) {
             let searchHistoryArr = [];
-            //prevents duplicate search history items
             if (searchHistoryArr.indexOf(cityObj.cityName) === -1) {
                 searchHistoryArr.push(cityObj.cityName);
                 localStorage.setItem("searchHistory", JSON.stringify(searchHistoryArr));
@@ -90,7 +90,6 @@ function getWeather(desiredCity) {
                 renderWeatherData(cityObj.cityName, cityObj.cityTemp, cityObj.cityHumidity, cityObj.cityWindSpeed, renderedWeatherIcon, uvData.value);
                 renderSearchHistory(cityObj.cityName);
             }else {
-                console.log("City already in searchHistory. Not adding to history list")
                 let renderedWeatherIcon = `https://openweathermap.org/img/w/${cityObj.cityWeatherIconName}.png`;
                 renderWeatherData(cityObj.cityName, cityObj.cityTemp, cityObj.cityHumidity, cityObj.cityWindSpeed, renderedWeatherIcon, uvData.value);
             }
@@ -103,7 +102,6 @@ function getWeather(desiredCity) {
                 renderWeatherData(cityObj.cityName, cityObj.cityTemp, cityObj.cityHumidity, cityObj.cityWindSpeed, renderedWeatherIcon, uvData.value);
                 renderSearchHistory(cityObj.cityName);
             }else {
-                console.log("City is already in searchHistory")
                 let renderedWeatherIcon = `https://openweathermap.org/img/w/${cityObj.cityWeatherIconName}.png`;
                 renderWeatherData(cityObj.cityName, cityObj.cityTemp, cityObj.cityHumidity, cityObj.cityWindSpeed, renderedWeatherIcon, uvData.value);
             }
