@@ -12,24 +12,33 @@ let windSpeedEl = $('.windSpeed');
 let uvIndexEl = $('.uvIndex');
 let cardRow = $(".card-row");
 
-
 var today = new Date();
 let dd = String(today.getDate()).padStart(2, '0');
 let mm = String(today.getMonth() + 1).padStart(2, '0');
 let yyyy = today.getFullYear();
 var today = mm + '/' + dd + '/' + yyyy;
 
+//Gets the weather when use hits search
+searchBtn.on('click', function(index) {
+    index.preventDefault();
+    getWeather(searchInput.val());
+});
+
+// Renders history if there is a history
+function renderSearchHistory(cityName) {
+    searchHistoryEl.empty();
+    let searchHistoryArr = JSON.parse(localStorage.getItem('searchHistory'));
+    for (let i = 0; i < searchHistoryArr.length; i++) {
+        let newListItem = $("<li>").attr("class", "historyEntry");
+        newListItem.text(searchHistoryArr[i]);
+        searchHistoryEl.prepend(newListItem);
+    }
+}
 if (JSON.parse(localStorage.getItem('searchHistory')) === null) {
     console.log('No search history')
 } else {
     renderSearchHistory();
 }
-
-searchBtn.on('click', function(e) {
-    e.preventDefault();
-    console.log('clicked button')
-    getWeather(searchInput.val());
-});
 
 //click history items
 $(document).on('click', ".historyEntry", function() {
@@ -37,7 +46,7 @@ $(document).on('click', ".historyEntry", function() {
     getWeather(thisElement.text());
 });
 
-
+//Renders weather data on right side of page for selected city
 function renderWeatherData(cityName, cityTemp, cityHumidity, cityWindSpeed, cityWeatherIcon, uvVal) {
     cityNameEl.text(cityName)
     currentDate.text(`(${today})`)
@@ -48,20 +57,13 @@ function renderWeatherData(cityName, cityTemp, cityHumidity, cityWindSpeed, city
     weatherIconEl.attr("src", cityWeatherIcon);
 }
 
-function renderSearchHistory(cityName) {
-    searchHistoryEl.empty();
-    let searchHistoryArr = JSON.parse(localStorage.getItem('searchHistory'));
-    for (let i = 0; i < searchHistoryArr.length; i++) {
-        let newListItem = $("<li>").attr("class", "historyEntry");
-        newListItem.text(searchHistoryArr[i]);
-        searchHistoryEl.prepend(newListItem);
-    }
-}
 
 
 
-function getWeather(desiredCity) {
-    let queryUrl = `https://api.openweathermap.org/data/2.5/weather?q=${desiredCity}&APPID=${apiKey}&units=imperial`;
+
+
+function getWeather(searchedCity) {
+    let queryUrl = `https://api.openweathermap.org/data/2.5/weather?q=${searchedCity}&APPID=${apiKey}&units=imperial`;
     $.ajax({
         url: queryUrl,
         method: "GET"
@@ -113,7 +115,7 @@ function getWeather(desiredCity) {
 
     function getFiveDayForecast() {
         cardRow.empty();
-        let queryUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${desiredCity}&APPID=${apiKey}&units=imperial`;
+        let queryUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${searchedCity}&APPID=${apiKey}&units=imperial`;
         $.ajax({
             url: queryUrl,
             method: "GET"
