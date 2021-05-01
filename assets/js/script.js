@@ -42,13 +42,13 @@ if (JSON.parse(localStorage.getItem('searchHistory')) === null) {
     renderSearchHistory();
 }
 
-//click history items
+//Click history items
 $(document).on('click', ".historyEntry", function() {
     let thisElement = $(this);
     getWeather(thisElement.text());
 });
 
-//Renders weather data on right side of page for selected city
+//Renders current weather data for selected city
 function renderWeatherData(cityName, cityTemp, cityHumidity, cityWindSpeed, cityWeatherIcon, uvVal) {
     cityNameEl.text(cityName)
     currentDate.text(`(${today})`)
